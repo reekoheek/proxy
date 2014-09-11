@@ -71,12 +71,16 @@ var proxy = http.createServer(function (req, res) {
 });
 
 proxy.on('connect', function(req, clientSocket, head) {
-    console.log('CONNECT', req.url);
-
     var parsedUrl = url.parse('http://' + req.url);
-    // console.log(parsedUrl);
-    var srvSocket = net.connect(parsedUrl.port, parsedUrl.hostname, function() {
-    // var srvSocket = net.connect(3001, 'localhost', function() {
+
+    // var port = parsedUrl.port;
+    // var host = parsedUrl.hostname;
+    var port = 3001;
+    var host = 'localhost';
+
+    // console.log('CONNECT', req.url, 'to ' + host + ':' + port);
+
+    var srvSocket = net.connect(port, host, function() {
         clientSocket.write('HTTP/1.1 200 Connection Established\r\n' +
             'Proxy-agent: reekoheek-proxy\r\n' +
             '\r\n');
@@ -89,7 +93,9 @@ proxy.on('connect', function(req, clientSocket, head) {
 });
 
 // now that proxy is running
-proxy.listen(3000);
+proxy.listen(3000, function() {
+    console.log('Proxy listening on ' + proxy.address().address + ':' + proxy.address().port);
+});
 
 var options = {
     key: fs.readFileSync('cert/server.key'),
@@ -124,7 +130,13 @@ var server = https.createServer(options, function(req, res) {
 
         var cReq = https.request(options, function(cRes) {
 
-            res.writeHead(cRes.statusCode, cRes.headers);
+            var headers = {};
+            for(var i in cRes.headers) {
+                if (i === 'content-length') continue;
+                headers[i] = cRes.headers[i];
+            }
+
+            res.writeHead(cRes.statusCode, headers);
 
             var chunks = [];
             cRes.on('data', function(chunk) {
