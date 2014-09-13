@@ -73,10 +73,10 @@ var proxy = http.createServer(function (req, res) {
 proxy.on('connect', function(req, clientSocket, head) {
     var parsedUrl = url.parse('http://' + req.url);
 
-    // var port = parsedUrl.port;
-    // var host = parsedUrl.hostname;
-    var port = 3001;
-    var host = 'localhost';
+    var port = parsedUrl.port;
+    var host = parsedUrl.hostname;
+    // var port = 3001;
+    // var host = 'localhost';
 
     // console.log('CONNECT', req.url, 'to ' + host + ':' + port);
 
@@ -93,7 +93,7 @@ proxy.on('connect', function(req, clientSocket, head) {
 });
 
 // now that proxy is running
-proxy.listen(3000, function() {
+proxy.listen(8123, function() {
     console.log('Proxy listening on ' + proxy.address().address + ':' + proxy.address().port);
 });
 
