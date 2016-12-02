@@ -1,14 +1,25 @@
 {
   "name": "proxy",
-  "version": "0.0.1",
-  "description": "LSHFYWR Proxy",
-  "main": "index.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reekoheek/proxy.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reekoheek/proxy/issues"
+  },
+  "homepage": "https://github.com/reekoheek/proxy#readme",
   "dependencies": {
-    "mkdir": "0.0.2"
+    "co": "^4.6.0",
+    "lodash": "^3.10.1",
+    "mkdirp": "^0.5.1",
+    "superagent": "^1.4.0"
   }
 }
